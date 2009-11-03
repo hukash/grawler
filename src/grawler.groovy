@@ -7,9 +7,12 @@
  */
 
 def searchFor = /aWYoIWl/
+
 new File('.').eachFileRecurse {
-  def myMatcher = (it.getText() =~ searchFor)
-  if (myMatcher.getCount()){
-    println "Found in file: {$it}"
+  if (it.toString().endsWith("php")){
+    def myMatcher = (it.getText() =~ searchFor)
+    if (myMatcher.getCount()){
+      println "Found in file: {$it}"
+    }
   }
 }
