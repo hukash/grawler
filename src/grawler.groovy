@@ -1,9 +1,6 @@
 /**
- * Created by IntelliJ IDEA.
- * User: lso
+ * User: hukash
  * Date: 03.11.2009
- * Time: 12:52:29
- * To change this template use File | Settings | File Templates.
  */
 
 def searchFor = /aWYoIWl/
@@ -16,3 +13,9 @@ new File('.').eachFileRecurse {
     }
   }
 }
+
+/* search */
+
+/* view */
+
+/* delete and create backup */
