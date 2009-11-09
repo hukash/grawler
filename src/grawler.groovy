@@ -3,41 +3,52 @@
  * Date: 03.11.2009
  */
 
-def searchFor = /aWYoIWl/
-def counter = 0
-def results = []
+class Grawler {
+	def counter = 0
+	def results = []
 
-def searchForInjection(pattern, dir, filetype){
-  new File(dir).eachFileRecurse {
-    if (it.toString().endsWith(filetype)){
-      try {
-       def myMatcher = (it.getText() =~ searchFor)
-       if (myMatcher.getCount()){
-       counter++
-       //println "Found in file: {$it}"
-       // write result into a list and return list
-       results << it
-       }
-      }
-      catch (IOException e) {
-        println e
-      }
-    }
-  }
+	def searchForInjection(pattern, dir, filetype){
+	  new File(dir).eachFileRecurse {
+	    if (it.toString().endsWith(filetype)){
+	      try {
+	       	def myMatcher = (it.getText() =~ pattern)
+		    	if (myMatcher.getCount()){
+		    		counter++
+		   			results << it
+	      	}
+	      }
+	      catch (IOException e) {
+	        println e
+	      }
+	    }
+	  }
+	}
+	
+	def viewResults(){
+	  results.each {
+		def fileName = it.toString()
+	    println "Found: $fileName"
+	  }
+	  println counter
+	}
+	
+/*	def deleteInfectedChunks(pattern) {
+		results.each {
+			def file = new File(it.toString())
+			def myMatcher = (file.readLines() =~ pattern)
+			if (myMatcher.getCount()){
+				file.readLines().replace("")
+				println "Delete in: $it"
+			}
+		}
+	}*/
 }
 
-// view results
-def viewResults(){
-  results.each {
-    println "Found: {it}"
-  }
-  println counter
-}
+def grawler = new Grawler()
+grawler.searchForInjection(/aWYoIWl/, "/Users/lukas/Workspace/grawler/", "php")
+grawler.viewResults()
+grawler.deleteInfectedChunks(/aWYoIWl/)
 
-def start(){
-  searchForInjection(searchFor, ".", "php")
-  viewResults()
-}
 // delete lines where the pattern applies
 
 // backup files
