@@ -11,11 +11,16 @@ def counter = 0
 
 new File('.').eachFileRecurse {
   if (it.toString().endsWith("php")){
-    def myMatcher = (it.getText() =~ searchFor)
-    if (myMatcher.getCount()){
-      counter++
-      println "Found in file: {$it}"
+    try {
+     def myMatcher = (it.getText() =~ searchFor)
+     if (myMatcher.getCount()){
+     counter++
+     println "Found in file: {$it}"
+     }
     }
+      catch (Exception e) {
+        println e
+      }
   }
 }
 println(counter)
