@@ -24,11 +24,20 @@ def searchForInjection(pattern, dir, filetype){
       }
     }
   }
-  println(counter)
 }
 
 // view results
+def viewResults(){
+  results.each {
+    println "Found: {it}"
+  }
+  println counter
+}
 
+def start(){
+  searchForInjection(searchFor, ".", "php")
+  viewResults()
+}
 // delete lines where the pattern applies
 
 // backup files
