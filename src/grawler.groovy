@@ -1,26 +1,34 @@
 /**
- * Created by IntelliJ IDEA.
- * User: lso
+ * User: hukash
  * Date: 03.11.2009
- * Time: 12:52:29
- * To change this template use File | Settings | File Templates.
  */
 
 def searchFor = /aWYoIWl/
 def counter = 0
+def results = []
 
-new File('.').eachFileRecurse {
-  if (it.toString().endsWith("php")){
-    try {
-     def myMatcher = (it.getText() =~ searchFor)
-     if (myMatcher.getCount()){
-     counter++
-     println "Found in file: {$it}"
-     }
-    }
-      catch (Exception e) {
+def searchForInjection(pattern, dir, filetype){
+  new File(dir).eachFileRecurse {
+    if (it.toString().endsWith(filetype)){
+      try {
+       def myMatcher = (it.getText() =~ searchFor)
+       if (myMatcher.getCount()){
+       counter++
+       //println "Found in file: {$it}"
+       // write result into a list and return list
+       results << it
+       }
+      }
+      catch (IOException e) {
         println e
       }
+    }
   }
+  println(counter)
 }
-println(counter)
+
+// view results
+
+// delete lines where the pattern applies
+
+// backup files
