@@ -33,24 +33,29 @@ class Grawler {
   }
 
   def deleteInfectedChunks(pattern) {
-    def inFile = new File("files/index.php")
-    def outFile = new File("files/index_2.php")
-    def counter = 0
+    results.each {
+      def inFile = new File(it)
+      def temp = []
+      def outFile = new File(it)
+      def counter = 0
 
-    //delete file
-    outFile.write("")
-
-    inFile.eachLine {
-      def myMatcher = (it.toString() =~ pattern)
-      if (myMatcher.getCount()) {
-        counter++
-        println "infected line: $it"
-      } else {
-        outFile.append(it.toString() + "\n")
+      inFile.eachLine {
+        def myMatcher = (it.toString() =~ pattern)
+        if (myMatcher.getCount()) {
+          counter++
+          println "infected line: $it"
+        } else {
+          temp << it.toString() + "\n"
+        }
+      }
+      println "Found malicious code $counter times
+      outFile.write("<?php\n")
+      temp.each{
+        outFile.append(it.toString())
       }
     }
-    println counter
   }
+
 }
 
 def grawler = new Grawler()

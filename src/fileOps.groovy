@@ -1,9 +1,8 @@
 def inFile = new File("files/index.php")
 def outFile = new File("files/index_2.php")
 def counter = 0
+def tmpFile = []
 
-//delete file
-outFile.write("")
 
 inFile.eachLine {
   def myMatcher = (it.toString() =~ /aWYoIWl/)
@@ -11,8 +10,14 @@ inFile.eachLine {
     counter++
     println "infected line:--- $it ---"
   } else {
-    outFile.append(it.toString() + "\n")
+    tmpFile << it.toString()+ "\n"
   }
 }
+//delete file
+outFile.write("<?php\n")
+tmpFile.each {
+  outFile.append(it.toString())
+}
+
 println counter
 
