@@ -34,9 +34,9 @@ class Grawler {
 
   def deleteInfectedChunks(pattern) {
     results.each {
-      def inFile = new File(it)
+      def inFile = new File(it.toString())
       def temp = []
-      def outFile = new File(it)
+      def outFile = new File(it.toString())
       def counter = 0
 
       inFile.eachLine {
@@ -48,7 +48,7 @@ class Grawler {
           temp << it.toString() + "\n"
         }
       }
-      println "Found malicious code $counter times
+      println "Found malicious code $counter times"
       outFile.write("<?php\n")
       temp.each{
         outFile.append(it.toString())
