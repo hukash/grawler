@@ -4,44 +4,53 @@
  */
 
 class Grawler {
-	def counter = 0
-	def results = []
+  def counter = 0
+  def results = []
 
-	def searchForInjection(pattern, dir, filetype){
-	  new File(dir).eachFileRecurse {
-	    if (it.toString().endsWith(filetype)){
-	      try {
-	       	def myMatcher = (it.getText() =~ pattern)
-		    	if (myMatcher.getCount()){
-		    		counter++
-		   			results << it
-	      	}
-	      }
-	      catch (IOException e) {
-	        println e
-	      }
-	    }
-	  }
-	}
-	
-	def viewResults(){
-	  results.each {
-		def fileName = it.toString()
-	    println "Found: $fileName"
-	  }
-	  println counter
-	}
-	
-/*	def deleteInfectedChunks(pattern) {
-		results.each {
-			def file = new File(it.toString())
-			def myMatcher = (file.readLines() =~ pattern)
-			if (myMatcher.getCount()){
-				file.readLines().replace("")
-				println "Delete in: $it"
-			}
-		}
-	}*/
+  def searchForInjection(pattern, dir, filetype) {
+    new File(dir).eachFileRecurse {
+      if (it.toString().endsWith(filetype)) {
+        try {
+          def myMatcher = (it.getText() =~ pattern)
+          if (myMatcher.getCount()) {
+            counter++
+            results << it
+          }
+        }
+        catch (IOException e) {
+          println e
+        }
+      }
+    }
+  }
+
+  def viewResults() {
+    results.each {
+      def fileName = it.toString()
+      println "Found: $fileName"
+    }
+    println counter
+  }
+
+  def deleteInfectedChunks(pattern) {
+    def inFile = new File("files/index.php")
+    def outFile = new File("files/index_2.php")
+    def counter = 0
+
+    //delete file
+    outFile.write("")
+
+    inFile.eachLine {
+      def myMatcher = (it.toString() =~ pattern)
+      if (myMatcher.getCount()) {
+        counter++
+        println "infected line: $it"
+      } else {
+        outFile.append(it.toString() + "\n")
+      }
+    }
+    println counter
+  }
 }
 
 def grawler = new Grawler()

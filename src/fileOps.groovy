@@ -6,13 +6,13 @@ def counter = 0
 outFile.write("")
 
 inFile.eachLine {
-	def myMatcher = (it.toString() =~ /aWYoIWl/)
-	if (myMatcher.getCount()){
-		counter++
-		println "infected line:--- $it ---"
-	} else { 
-		outFile.append(it.toString() + "\n")
-	}
+  def myMatcher = (it.toString() =~ /aWYoIWl/)
+  if (myMatcher.getCount()) {
+    counter++
+    println "infected line:--- $it ---"
+  } else {
+    outFile.append(it.toString() + "\n")
+  }
 }
 println counter
 
